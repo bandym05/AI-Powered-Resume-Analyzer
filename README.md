@@ -1,8 +1,10 @@
+
+```markdown
 # 🤖 AI-Powered Resume Analyzer
 
 An intelligent web app that analyzes resumes against a given job description to determine the best fit, suggest improvements, and provide detailed insights using AI and Natural Language Processing (NLP).
 
-Built with **FastAPI**, **Streamlit**, and **Plotly** for a smooth and interactive experience.
+Built with **FastAPI**, **Streamlit**, **Groq LLaMA 3**, and **Plotly** for a smooth and interactive experience.
 
 ---
 
@@ -25,6 +27,7 @@ Built with **FastAPI**, **Streamlit**, and **Plotly** for a smooth and interacti
 |:---|:---|
 | [FastAPI](https://fastapi.tiangolo.com/) | Backend API for resume and job description analysis |
 | [Streamlit](https://streamlit.io/) | Frontend interface for uploading and viewing results |
+| [Groq LLaMA 3](https://www.groq.com/) | AI model used for natural language processing and script generation |
 | [Plotly](https://plotly.com/python/) | Beautiful, interactive charts |
 | [Python Libraries] | NLP and parsing (e.g., PyMuPDF, docx, spaCy) |
 
@@ -55,7 +58,7 @@ ai-resume-analyzer/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/ai-resume-analyzer.git
+git clone https://github.com/bandym05/AI-Powered-Resume-Analyzer.git
 cd ai-resume-analyzer
 ```
 
@@ -82,8 +85,6 @@ uvicorn main:app --reload
 
 FastAPI will run at [http://localhost:8000](http://localhost:8000)
 
----
-
 ### Start the Frontend (Streamlit)
 In a new terminal:
 
@@ -98,7 +99,11 @@ Streamlit will run at [http://localhost:8501](http://localhost:8501)
 
 ## 📸 Screenshots
 
+| Upload Resumes & JD | Summary Insights | Detailed Report |
+|:---|:---|:---|
+| ![upload](assets/upload.png) | ![summary](assets/summary.png) | ![details](assets/details.png) |
 
+*(Optional: Add real screenshots if available!)*
 
 ---
 
@@ -130,7 +135,9 @@ See `LICENSE` for more information.
 
 - [Streamlit](https://streamlit.io/)
 - [FastAPI](https://fastapi.tiangolo.com/)
+- [Groq LLaMA 3](https://www.groq.com/)
 - [spaCy](https://spacy.io/)
 - [Plotly](https://plotly.com/)
+```
 
----
+
