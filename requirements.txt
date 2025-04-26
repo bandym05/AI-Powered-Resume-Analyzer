@@ -1,8 +1,7 @@
 fastapi
 uvicorn
-python-multipart
-pdfminer.six
-groq
-langchain
-streamlit
-sqlalchemy
+pdfplumber
+python-docx
+scikit-learn
+requests
+pydantic

@@ -1,64 +1,48 @@
-from fastapi import FastAPI, UploadFile, File, Form
+# backend/main.py
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from models import SessionLocal, ResumeAnalysis
-from utils import extract_text_from_pdf, analyze_resume_with_llm
-import shutil
-import os
+from services.parser import extract_text_from_file
+from services.scorer import calculate_fit_score
+from services.llm_service import analyze_resume
+from models.schemas import ResumeAnalysisResponse
+
+from typing import List
 
 app = FastAPI()
 
-# CORS setup
+# CORS settings so Streamlit can talk to it
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Allow Streamlit frontend
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+@app.post("/analyze", response_model=List[ResumeAnalysisResponse])
+async def analyze_resumes(resumes: List[UploadFile] = File(...), job_description: UploadFile = File(...)):
+    # Extract job description text
+    jd_text = await job_description.read()
+    jd_text = jd_text.decode('utf-8')  # assuming it's a simple .txt upload for now
 
-@app.post("/analyze")
-async def analyze_resumes(job_description: str = Form(...), files: list[UploadFile] = File(...)):
-    db = SessionLocal()
     results = []
-    
-    for file in files:
-        # Save uploaded file
-        file_path = f"{UPLOAD_DIR}/{file.filename}"
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+
+    for resume_file in resumes:
+        resume_text = await extract_text_from_file(resume_file)
         
-        # Extract text
-        resume_text = extract_text_from_pdf(file_path)
-        
-        # Analyze with LLM
-        analysis_result = analyze_resume_with_llm(resume_text, job_description)
-        
-        # Parse LLM response (simplified)
-        skills = analysis_result.split("1. Top 5 skills:")[1].split("2.")[0].strip()
-        experience = analysis_result.split("2. Years of experience:")[1].split("3.")[0].strip()
-        education = analysis_result.split("3. Education:")[1].split("4.")[0].strip()
-        match_score = float(analysis_result.split("4. Match score:")[1].split("%")[0].strip())
-        suggestions = analysis_result.split("5. Suggestions:")[1].strip()
-        
-        # Save to DB
-        db_record = ResumeAnalysis(
-            filename=file.filename,
-            skills=skills,
-            experience=experience,
-            education=education,
-            match_score=match_score,
-            suggestions=suggestions
+        # LLM analyzes resume + JD
+        analysis = await analyze_resume(resume_text, jd_text)
+
+        # Calculate fit score manually
+        fit_score = calculate_fit_score(resume_text, jd_text)
+
+        result = ResumeAnalysisResponse(
+            filename=resume_file.filename,
+            fit_score=fit_score,
+            missing_skills=analysis.get("missing_skills", []),
+            improvement_suggestions=analysis.get("suggestions", "")
         )
-        db.add(db_record)
-        db.commit()
-        
-        results.append({
-            "filename": file.filename,
-            "skills": skills,
-            "match_score": match_score,
-            "suggestions": suggestions
-        })
+
+        results.append(result)
     
-    return {"results": results}
+    return results
