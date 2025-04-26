@@ -8,3 +8,5 @@ pydantic
 streamlit
 requests
 pandas
+python-multipart
+python-dotenv

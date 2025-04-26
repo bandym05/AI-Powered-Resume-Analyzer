@@ -1,6 +1,9 @@
 # backend/services/llm_service.py
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")  # You must set this in environment variables
 
