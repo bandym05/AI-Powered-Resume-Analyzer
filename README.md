@@ -98,11 +98,7 @@ Streamlit will run at [http://localhost:8501](http://localhost:8501)
 
 ## 📸 Screenshots
 
-| Upload Resumes & JD | Summary Insights | Detailed Report |
-|:---|:---|:---|
-| ![upload](assets/upload.png) | ![summary](assets/summary.png) | ![details](assets/details.png) |
 
-*(Optional: Add real screenshots if available!)*
 
 ---
 
