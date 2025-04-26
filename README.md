@@ -124,12 +124,6 @@ Streamlit will run at [http://localhost:8501](http://localhost:8501)
 Contributions, issues, and feature requests are welcome!  
 Feel free to open a pull request or create an issue.
 
----
-
-## 📜 License
-
-Distributed under the MIT License.  
-See `LICENSE` for more information.
 
 ---
 
