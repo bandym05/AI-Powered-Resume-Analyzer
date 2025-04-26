@@ -39,11 +39,11 @@ ai-resume-analyzer/
 ├── backend/
 │   ├── main.py        # FastAPI application
 │   ├── services/
-│   │   ├── resume_parser.py
-│   │   ├── job_description_parser.py
-│   │   └── analysis.py
+│   │   ├── parser.py
+│   │   ├── llm_service.py
+│   │   └── scorer.py
 │   └── utils/
-│       └── skill_extractor.py
+│       └── helper.py
 ├── frontend/
 │   └── app.py         # Streamlit frontend
 ├── README.md
