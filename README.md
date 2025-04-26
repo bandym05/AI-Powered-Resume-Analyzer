@@ -1,5 +1,4 @@
 
-```markdown
 # 🤖 AI-Powered Resume Analyzer
 
 An intelligent web app that analyzes resumes against a given job description to determine the best fit, suggest improvements, and provide detailed insights using AI and Natural Language Processing (NLP).
@@ -138,6 +137,6 @@ See `LICENSE` for more information.
 - [Groq LLaMA 3](https://www.groq.com/)
 - [spaCy](https://spacy.io/)
 - [Plotly](https://plotly.com/)
-```
+
 
 
