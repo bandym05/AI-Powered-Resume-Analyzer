@@ -10,3 +10,4 @@ requests
 pandas
 python-multipart
 python-dotenv
+plotly
