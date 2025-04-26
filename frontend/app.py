@@ -68,19 +68,25 @@ if st.sidebar.button("Analyze"):
                 st.header("📊 Summary Insights")
 
                 avg_score = candidates_df["Fit Score"].mean()
-                top_candidates = candidates_df[candidates_df["Fit Score"] == 100]
-                low_candidates = candidates_df[candidates_df["Fit Score"] < 50]
 
-                col1, col2, col3 = st.columns(3)
+                # Define groups based on Fit Score
+                best_matches = candidates_df[candidates_df["Fit Score"] >= 85]
+                above_average = candidates_df[(candidates_df["Fit Score"] >= avg_score) & (candidates_df["Fit Score"] < 85)]
+                weak_matches = candidates_df[candidates_df["Fit Score"] < 50]
+
+                col1, col2, col3, col4 = st.columns(4)
 
                 with col1:
                     st.metric("📈 Average Fit Score", f"{avg_score:.2f}%")
 
                 with col2:
-                    st.metric("🏅 Perfect Matches (100%)", len(top_candidates))
+                    st.metric("🏆 Best Matches (85%+)", len(best_matches))
 
                 with col3:
-                    st.metric("⚠️ Weak Matches (<50%)", len(low_candidates))
+                    st.metric("👍 Above Average Matches", len(above_average))
+
+                with col4:
+                    st.metric("⚠️ Weak Matches (<50%)", len(weak_matches))
 
                 # 📈 3️⃣ Charts
 
