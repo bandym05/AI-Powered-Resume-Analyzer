@@ -1,40 +1,42 @@
-# backend/services/llm_service.py
 import os
 import requests
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")  # You must set this in environment variables
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 async def analyze_resume(resume_text: str, job_description: str) -> dict:
     prompt = f"""
-You are a professional HR recruiter AI.
+You are an expert AI recruiter.
 
-Given the following resume and job description:
+Based on the following:
 
-Resume:
+=== Resume ===
 {resume_text}
 
-Job Description:
+=== Job Description ===
 {job_description}
 
-1. List missing skills from resume compared to job description.
-2. Suggest improvements to the resume.
-Respond in JSON format like:
-{{
-    "missing_skills": [...],
-    "suggestions": "..."
-}}
-    """
+Please:
+1. List missing skills from the resume compared to job description (bullet points).
+2. Suggest improvements to make the resume a better fit (short paragraph).
 
-    url = "https://api.groq.com/v1/chat/completions"  # Example for Groq
+Format your output strictly in JSON:
+{{
+    "missing_skills": ["Skill 1", "Skill 2", ...],
+    "suggestions": "One paragraph suggestion here."
+}}
+"""
+
+    url = "https://api.groq.com/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
     }
     body = {
-        "model": "llama3-8b-8192",  # You can adjust this
+        "model": "llama3-8b-8192",
         "messages": [{"role": "user", "content": prompt}]
     }
 
@@ -43,7 +45,7 @@ Respond in JSON format like:
 
     try:
         content = output['choices'][0]['message']['content']
-        return eval(content)  # Since Groq returns pure text, we eval the JSON string
+        return json.loads(content)  
     except Exception as e:
-        print("LLM Parsing error:", e)
-        return {"missing_skills": [], "suggestions": ""}    
+        print("Parsing error from LLM:", e)
+        return {"missing_skills": [], "suggestions": "No suggestion available."}
