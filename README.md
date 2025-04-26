@@ -5,6 +5,12 @@ An intelligent web app that analyzes resumes against a given job description to 
 
 Built with **FastAPI**, **Streamlit**, **Groq LLaMA 3**, and **Plotly** for a smooth and interactive experience.
 
+
+
+https://github.com/user-attachments/assets/64339411-da1c-401f-be95-460bef385d7d
+
+
+
 ---
 
 ## 🚀 Features
@@ -98,6 +104,7 @@ Streamlit will run at [http://localhost:8501](http://localhost:8501)
 
 ## 📸 Screenshots
 
+![resumeanalyser](https://github.com/user-attachments/assets/2fa69115-488b-4556-8208-11f713647b6c)
 
 
 ---
